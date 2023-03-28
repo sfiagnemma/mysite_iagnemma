@@ -1,31 +1,29 @@
 ---
-title: "Aaron M. Kessler"
+title: "Sara F. Iagnemma"
 about:
   template: jolla
-  image: testimage.jpg
+  image: woods.jpg
   links:
-    - icon: twitter
-      text: twitter
-      href: https://twitter.com/akesslerdc
+    - icon: linkedin
+      text: Linkedin
+      href: https://www.linkedin.com/in/sara-iagnemma-510441270/
     - icon: github
       text: Github
-      href: https://github.com/amkessler
+      href: https://github.com/sfiagnemma
 ---
 
-Hi, I'm Aaron and I'm a reporter at the AP in Washington. I like data, the ocean and F1 racing. I've got two little ones and enjoy watching them grow up.
+Hi, I'm Sara, and I'm a journalism student in Washington, DC. 
+This is a test site for the Data Journalism course. 
 
-## Education
+### Education
 
-University of Missouri tktktktk
+BA of Journalism & Mass Communication in progress at the George Washington University
 
-Columbia University
+EMT Basic from Community College of Allegheny County
 
-Washington University in St. Louis
 
-## Skills
 
-Reporting and Writing
 
-Data Analysis
 
-FOIA laws
+
+

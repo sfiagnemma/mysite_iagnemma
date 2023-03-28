@@ -4,11 +4,11 @@ project:
 
 website:
   page-footer: 
-    left: "Copyright 2022, Testy R. Testman" 
+    left: "Copyright 2023, Sara Iagnemma" 
     right: 
       - icon: github
-        href: https://github.com/
-  title: "Aaron's Website"
+        href: https://github.com/sfiagnemma
+  title: "Sara's Website"
   navbar:
     left:
       - href: index.qmd
