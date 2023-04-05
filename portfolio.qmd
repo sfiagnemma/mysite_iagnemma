@@ -2,6 +2,4 @@
 title: "Portfolio"
 ---
 
-Hi there this is my portfolio page! Yay...
-  
-Here's another line for good measure.
+This is an [art project](https://vaguelyavenue.weebly.com/) I completed in high school.
