@@ -1,6 +1,6 @@
 ---
 title: "Analysis Walkthrough Example"
-author: "Aaron Kessler"
+author: ""
 format:
   html:
     self-contained: true
@@ -9,7 +9,7 @@ format:
 
 ---
 
-We'll start by loading. our libraries.
+We'll start by loading our libraries.
 
 ```{r}
 

@@ -16,8 +16,8 @@ website:
       - about.qmd
       - portfolio.qmd
       - walkthrough.qmd
-      
-
+      - Story Samples.qmd
+      - Media Law Essay.qmd
 
 format:
   html:
