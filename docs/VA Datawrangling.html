@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content>
+<meta name="author" content="Sara Iagnemma">
 
-<title>Sara’s Website - Analysis Walkthrough Example</title>
+<title>Sara’s Website - Virginia Election Project</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -4019,7 +4019,7 @@ vertical-align: -.125em;
  <span class="menu-text">Portfolio</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./walkthrough.html" aria-current="page">
+    <a class="nav-link" href="./walkthrough.html">
  <span class="menu-text">Analysis Walkthrough Example</span></a>
   </li>  
   <li class="nav-item">
@@ -4031,7 +4031,7 @@ vertical-align: -.125em;
  <span class="menu-text">Media Law Midterm</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./VA Datawrangling.html">
+    <a class="nav-link active" href="./VA Datawrangling.html" aria-current="page">
  <span class="menu-text">Virginia Election Project</span></a>
   </li>  
   <li class="nav-item">
@@ -4049,20 +4049,40 @@ vertical-align: -.125em;
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#getting-2020-presidential-results" id="toc-getting-2020-presidential-results" class="nav-link active" data-scroll-target="#getting-2020-presidential-results">Getting 2020 Presidential results</a></li>
+  <li><a href="#getting-2021-virginia-governor-results" id="toc-getting-2021-virginia-governor-results" class="nav-link" data-scroll-target="#getting-2021-virginia-governor-results">Getting 2021 Virginia governor results</a>
+  <ul class="collapse">
+  <li><a href="#reshaping" id="toc-reshaping" class="nav-link" data-scroll-target="#reshaping">Reshaping</a></li>
+  </ul></li>
+  <li><a href="#putting-things-together---joining" id="toc-putting-things-together---joining" class="nav-link" data-scroll-target="#putting-things-together---joining">Putting things together - joining</a>
+  <ul class="collapse">
+  <li><a href="#comparing-gov-vs.-prez-results" id="toc-comparing-gov-vs.-prez-results" class="nav-link" data-scroll-target="#comparing-gov-vs.-prez-results">Comparing gov vs. prez results</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Analysis Walkthrough Example</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+<div class="quarto-title-block"><div><h1 class="title">Virginia Election Project</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Sara Iagnemma </p>
+          </div>
+  </div>
     
   
     
@@ -4071,62 +4091,469 @@ vertical-align: -.125em;
 
 </header>
 
-<p>We’ll start by loading our libraries.</p>
+<section id="getting-2020-presidential-results" class="level1">
+<h1>Getting 2020 Presidential results</h1>
+<p>Data available here: <a href="https://historical.elections.virginia.gov/elections/view/144567/" class="uri">https://historical.elections.virginia.gov/elections/view/144567/</a></p>
+<p>A little column cleaning and we’ll load in the data file.</p>
 <div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>prez_2020 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;processed_data/va_2020_prez_cleaned.csv&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.0     ✔ readr     2.1.4
-✔ forcats   1.0.0     ✔ stringr   1.5.0
-✔ ggplot2   3.4.1     ✔ tibble    3.1.8
-✔ lubridate 1.9.2     ✔ tidyr     1.3.0
-✔ purrr     1.0.1     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the ]8;;http://conflicted.r-lib.org/conflicted package]8;; to force all conflicts to become errors</code></pre>
+<pre><code>Rows: 134 Columns: 4
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: &quot;,&quot;
+chr (1): locality
+num (3): biden, trump, total_votes_2021_prez
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
-<p>We’re going to look at some sample data from Texas on housing prices throughout the state.</p>
-<p>First we’ll load data.</p>
+<p>Let’s see what we have</p>
 <div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run this line below load the data for this assignment</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># we&#39;ll use a built-in dataset from the ggplot2 package (loaded as party of the tidyverse)</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>housesales <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span>txhousing</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(prez_2020) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+  locality         biden trump total_votes_2021_prez
+  &lt;chr&gt;            &lt;dbl&gt; &lt;dbl&gt;                 &lt;dbl&gt;
+1 Accomack County   7578  9172                 16962
+2 Albemarle County 42466 20804                 64657
+3 Alexandria City  66240 14544                 82508
+4 Alleghany County  2243  5859                  8203
+5 Amelia County     2411  5390                  7893
+6 Amherst County    5672 11041                 17005</code></pre>
 </div>
-<p>Now, let’s see what the data looks like</p>
+</div>
+<p>Calculating percentage of the vote</p>
 <div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>housesales <span class="sc">%&gt;%</span> </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>prez_2020 <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">biden_pct =</span> biden<span class="sc">/</span>total_votes_2021_prez</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 134 × 5
+   locality           biden trump total_votes_2021_prez biden_pct
+   &lt;chr&gt;              &lt;dbl&gt; &lt;dbl&gt;                 &lt;dbl&gt;     &lt;dbl&gt;
+ 1 Accomack County     7578  9172                 16962     0.447
+ 2 Albemarle County   42466 20804                 64657     0.657
+ 3 Alexandria City    66240 14544                 82508     0.803
+ 4 Alleghany County    2243  5859                  8203     0.273
+ 5 Amelia County       2411  5390                  7893     0.305
+ 6 Amherst County      5672 11041                 17005     0.334
+ 7 Appomattox County   2418  6702                  9268     0.261
+ 8 Arlington County  105344 22318                130699     0.806
+ 9 Augusta County     10840 30714                 42278     0.256
+10 Bath County          646  1834                  2501     0.258
+# … with 124 more rows</code></pre>
+</div>
+</div>
+<p>Now let’s do some rounding and move that decimal point</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>prez_2020 <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">biden_pct =</span> janitor<span class="sc">::</span><span class="fu">round_half_up</span>(biden <span class="sc">/</span> total_votes_2021_prez <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 134 × 5
+   locality           biden trump total_votes_2021_prez biden_pct
+   &lt;chr&gt;              &lt;dbl&gt; &lt;dbl&gt;                 &lt;dbl&gt;     &lt;dbl&gt;
+ 1 Accomack County     7578  9172                 16962      44.7
+ 2 Albemarle County   42466 20804                 64657      65.7
+ 3 Alexandria City    66240 14544                 82508      80.3
+ 4 Alleghany County    2243  5859                  8203      27.3
+ 5 Amelia County       2411  5390                  7893      30.5
+ 6 Amherst County      5672 11041                 17005      33.4
+ 7 Appomattox County   2418  6702                  9268      26.1
+ 8 Arlington County  105344 22318                130699      80.6
+ 9 Augusta County     10840 30714                 42278      25.6
+10 Bath County          646  1834                  2501      25.8
+# … with 124 more rows</code></pre>
+</div>
+</div>
+<p>Now trump too</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>prez_2020 <span class="ot">&lt;-</span> prez_2020 <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">biden_pct =</span> janitor<span class="sc">::</span><span class="fu">round_half_up</span>(biden <span class="sc">/</span> total_votes_2021_prez <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">trump_pct =</span> janitor<span class="sc">::</span><span class="fu">round_half_up</span>(trump <span class="sc">/</span> total_votes_2021_prez <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(prez_2020)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 6
+  locality         biden trump total_votes_2021_prez biden_pct trump_pct
+  &lt;chr&gt;            &lt;dbl&gt; &lt;dbl&gt;                 &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+1 Accomack County   7578  9172                 16962      44.7      54.1
+2 Albemarle County 42466 20804                 64657      65.7      32.2
+3 Alexandria City  66240 14544                 82508      80.3      17.6
+4 Alleghany County  2243  5859                  8203      27.3      71.4
+5 Amelia County     2411  5390                  7893      30.6      68.3
+6 Amherst County    5672 11041                 17005      33.4      64.9</code></pre>
+</div>
+</div>
+</section>
+<section id="getting-2021-virginia-governor-results" class="level1">
+<h1>Getting 2021 Virginia governor results</h1>
+<p>Data now available from the state here: <a href="https://historical.elections.virginia.gov/elections/view/147466" class="uri">https://historical.elections.virginia.gov/elections/view/147466</a>.</p>
+<p>After the election and for few years after, was only available in JSON format.</p>
+<p><a href="https://results.elections.virginia.gov/vaelections/2021%20November%20General/Json/Governor.json" class="uri">https://results.elections.virginia.gov/vaelections/2021%20November%20General/Json/Governor.json</a></p>
+<p>But site location doesn’t exist anymore. We can see it using the wayback machine here:</p>
+<p><a href="https://web.archive.org/web/20220806120753/https://results.elections.virginia.gov/vaelections/2021%20November%20General/Json/Governor.json" class="uri">https://web.archive.org/web/20220806120753/https://results.elections.virginia.gov/vaelections/2021%20November%20General/Json/Governor.json</a></p>
+<p>We’ll use an archived file of the in JSON to learn about how to deal with it that format.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>jsonfile <span class="ot">&lt;-</span> <span class="st">&quot;raw_data/va_gov_json_archived.json&quot;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co">#using jsonlite package function fromJSON()</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>this.content <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(jsonfile)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co">#dataframe from just the 6 content </span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>content_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(this.content[[<span class="dv">6</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Where are candidates themselves? They are “nested” inside. We’ll use <code>unnest()</code>to expand things.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#unnest</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> content_df <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(<span class="at">cols =</span> Candidates)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 9
-  city     year month sales   volume median listings inventory  date
-  &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;
-1 Abilene  2000     1    72  5380000  71400      701       6.3 2000 
-2 Abilene  2000     2    98  6505000  58700      746       6.6 2000.
-3 Abilene  2000     3   130  9285000  58100      784       6.8 2000.
-4 Abilene  2000     4    98  9730000  68600      785       6.9 2000.
-5 Abilene  2000     5   141 10590000  67300      794       6.8 2000.
-6 Abilene  2000     6   156 13910000  66900      780       6.6 2000.</code></pre>
+  Locali…¹ $Loca…² Preci…³ Preci…⁴ LastM…⁵ Ballo…⁶ Ballo…⁷ Votes Perce…⁸ Polit…⁹
+  &lt;chr&gt;    &lt;chr&gt;     &lt;int&gt;   &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  
+1 ACCOMAC… 001          19      19 2021-1… Glenn …  1   e0  7878 61.08%  Republ…
+2 ACCOMAC… 001          19      19 2021-1… Terry …  2   e0  4948 38.37%  Democr…
+3 ACCOMAC… 001          19      19 2021-1… Prince…  3   e0    67 0.52%   Libera…
+4 ACCOMAC… 001          19      19 2021-1… Write …  2.15e9     4 0.03%   Write-…
+5 ALBEMAR… 003          33      33 2021-1… Glenn …  1   e0 19141 37.21%  Republ…
+6 ALBEMAR… 003          33      33 2021-1… Terry …  2   e0 31919 62.05%  Democr…
+# … with abbreviated variable names ¹​Locality$LocalityName, ²​$LocalityCode,
+#   ³​PrecinctsReporting, ⁴​PrecinctsParticipating, ⁵​LastModified, ⁶​BallotName,
+#   ⁷​BallotOrder, ⁸​Percentage, ⁹​PoliticalParty</code></pre>
 </div>
+</div>
+<p>Unnest again on locality</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> results <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(<span class="at">cols =</span> Locality)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 10
+  Locali…¹ Local…² Preci…³ Preci…⁴ LastM…⁵ Ballo…⁶ Ballo…⁷ Votes Perce…⁸ Polit…⁹
+  &lt;chr&gt;    &lt;chr&gt;     &lt;int&gt;   &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  
+1 ACCOMAC… 001          19      19 2021-1… Glenn …  1   e0  7878 61.08%  Republ…
+2 ACCOMAC… 001          19      19 2021-1… Terry …  2   e0  4948 38.37%  Democr…
+3 ACCOMAC… 001          19      19 2021-1… Prince…  3   e0    67 0.52%   Libera…
+4 ACCOMAC… 001          19      19 2021-1… Write …  2.15e9     4 0.03%   Write-…
+5 ALBEMAR… 003          33      33 2021-1… Glenn …  1   e0 19141 37.21%  Republ…
+6 ALBEMAR… 003          33      33 2021-1… Terry …  2   e0 31919 62.05%  Democr…
+# … with abbreviated variable names ¹​LocalityName, ²​LocalityCode,
+#   ³​PrecinctsReporting, ⁴​PrecinctsParticipating, ⁵​LastModified, ⁶​BallotName,
+#   ⁷​BallotOrder, ⁸​Percentage, ⁹​PoliticalParty</code></pre>
+</div>
+</div>
+<p>Great.</p>
+<p>We’ll give it a new name to make it easier for us and clean the column names, remove extraneous ones.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>gov_2021 <span class="ot">&lt;-</span> results <span class="sc">%&gt;%</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>precincts_reporting,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>precincts_participating,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>last_modified,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>ballot_order)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gov_2021)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 6
+  locality_name    locality_code ballot_name          votes percentage politic…¹
+  &lt;chr&gt;            &lt;chr&gt;         &lt;chr&gt;                &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;    
+1 ACCOMACK COUNTY  001           Glenn A. Youngkin     7878 61.08%     Republic…
+2 ACCOMACK COUNTY  001           Terry R. McAuliffe    4948 38.37%     Democrat…
+3 ACCOMACK COUNTY  001           Princess L. Blanding    67 0.52%      Liberati…
+4 ACCOMACK COUNTY  001           Write In                 4 0.03%      Write-In 
+5 ALBEMARLE COUNTY 003           Glenn A. Youngkin    19141 37.21%     Republic…
+6 ALBEMARLE COUNTY 003           Terry R. McAuliffe   31919 62.05%     Democrat…
+# … with abbreviated variable name ¹​political_party</code></pre>
+</div>
+</div>
+<p>What’s the issue we may have here?</p>
+<p>This is actually tidy data which is good - but for comparing the candidates we’d want them on the same row.</p>
+<section id="reshaping" class="level2">
+<h2 class="anchored" data-anchor-id="reshaping">Reshaping</h2>
+<p>Enter pivot_wider().</p>
+<p>We’ll get rid of everything we don’t need first.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>gov_2021 <span class="ot">&lt;-</span> gov_2021 <span class="sc">%&gt;%</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ballot_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Glenn A. Youngkin&quot;</span>, <span class="st">&quot;Terry R. McAuliffe&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>locality_code,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>political_party)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>gov_2021</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 266 × 4
+   locality_name    ballot_name        votes percentage
+   &lt;chr&gt;            &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;     
+ 1 ACCOMACK COUNTY  Glenn A. Youngkin   7878 61.08%    
+ 2 ACCOMACK COUNTY  Terry R. McAuliffe  4948 38.37%    
+ 3 ALBEMARLE COUNTY Glenn A. Youngkin  19141 37.21%    
+ 4 ALBEMARLE COUNTY Terry R. McAuliffe 31919 62.05%    
+ 5 ALEXANDRIA CITY  Glenn A. Youngkin  14013 24.02%    
+ 6 ALEXANDRIA CITY  Terry R. McAuliffe 43866 75.20%    
+ 7 ALLEGHANY COUNTY Glenn A. Youngkin   4530 74.52%    
+ 8 ALLEGHANY COUNTY Terry R. McAuliffe  1518 24.97%    
+ 9 AMELIA COUNTY    Glenn A. Youngkin   4720 74.19%    
+10 AMELIA COUNTY    Terry R. McAuliffe  1617 25.42%    
+# … with 256 more rows</code></pre>
+</div>
+</div>
+<p>Now we’ll do the spreading out to reshape.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>gov_2021_wide <span class="ot">&lt;-</span> gov_2021 <span class="sc">%&gt;%</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> ballot_name, <span class="at">values_from =</span> <span class="fu">c</span>(votes, percentage))</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>gov_2021_wide</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 133 × 5
+   locality_name     `votes_Glenn A. Youngkin` votes_Terry R. …¹ perce…² perce…³
+   &lt;chr&gt;                                 &lt;int&gt;             &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  
+ 1 ACCOMACK COUNTY                        7878              4948 61.08%  38.37% 
+ 2 ALBEMARLE COUNTY                      19141             31919 37.21%  62.05% 
+ 3 ALEXANDRIA CITY                       14013             43866 24.02%  75.20% 
+ 4 ALLEGHANY COUNTY                       4530              1518 74.52%  24.97% 
+ 5 AMELIA COUNTY                          4720              1617 74.19%  25.42% 
+ 6 AMHERST COUNTY                         9731              3897 71.00%  28.43% 
+ 7 APPOMATTOX COUNTY                      5971              1438 80.26%  19.33% 
+ 8 ARLINGTON COUNTY                      21548             73013 22.63%  76.67% 
+ 9 AUGUSTA COUNTY                        26196              7231 77.93%  21.51% 
+10 BATH COUNTY                            1539               396 79.04%  20.34% 
+# … with 123 more rows, and abbreviated variable names
+#   ¹​`votes_Terry R. McAuliffe`, ²​`percentage_Glenn A. Youngkin`,
+#   ³​`percentage_Terry R. McAuliffe`</code></pre>
+</div>
+</div>
+<p>Nice.</p>
+<p>This is giving us some pretty long column names. we can change them after the fact using <code>rename()</code>. But first let’s clean the names to make it easier.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>gov_2021_wide <span class="ot">&lt;-</span> gov_2021_wide <span class="sc">%&gt;%</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>()</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gov_2021_wide)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  locality_name    votes_glenn_a_youngkin votes_terry_r_mc_aul…¹ perce…² perce…³
+  &lt;chr&gt;                             &lt;int&gt;                  &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  
+1 ACCOMACK COUNTY                    7878                   4948 61.08%  38.37% 
+2 ALBEMARLE COUNTY                  19141                  31919 37.21%  62.05% 
+3 ALEXANDRIA CITY                   14013                  43866 24.02%  75.20% 
+4 ALLEGHANY COUNTY                   4530                   1518 74.52%  24.97% 
+5 AMELIA COUNTY                      4720                   1617 74.19%  25.42% 
+6 AMHERST COUNTY                     9731                   3897 71.00%  28.43% 
+# … with abbreviated variable names ¹​votes_terry_r_mc_auliffe,
+#   ²​percentage_glenn_a_youngkin, ³​percentage_terry_r_mc_auliffe</code></pre>
+</div>
+</div>
+<p>Now let’s rename, and we’ll use similar names to what we had earlier in our 2021 results.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>gov_2021_wide <span class="ot">&lt;-</span> gov_2021_wide <span class="sc">%&gt;%</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">youngkin =</span> votes_glenn_a_youngkin,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mcauliffe =</span> votes_terry_r_mc_auliffe,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">pct_youngkin =</span> percentage_glenn_a_youngkin,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">pct_mcauliffe =</span> percentage_terry_r_mc_auliffe</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gov_2021_wide)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  locality_name    youngkin mcauliffe pct_youngkin pct_mcauliffe
+  &lt;chr&gt;               &lt;int&gt;     &lt;int&gt; &lt;chr&gt;        &lt;chr&gt;        
+1 ACCOMACK COUNTY      7878      4948 61.08%       38.37%       
+2 ALBEMARLE COUNTY    19141     31919 37.21%       62.05%       
+3 ALEXANDRIA CITY     14013     43866 24.02%       75.20%       
+4 ALLEGHANY COUNTY     4530      1518 74.52%       24.97%       
+5 AMELIA COUNTY        4720      1617 74.19%       25.42%       
+6 AMHERST COUNTY       9731      3897 71.00%       28.43%       </code></pre>
+</div>
+</div>
+<p>Bingo.</p>
+<p>There’s still one potential issue here. Can you see it?</p>
+<p>The percentage columns are actually text values, not numbers. And they have that <code>%</code> sign in the text too. Let’s fix that using a handy function from the readr package, <code>parse_number()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>gov_2021_wide <span class="ot">&lt;-</span> gov_2021_wide <span class="sc">%&gt;%</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">pct_youngkin =</span> readr<span class="sc">::</span><span class="fu">parse_number</span>(pct_youngkin),</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">pct_mcauliffe =</span> readr<span class="sc">::</span><span class="fu">parse_number</span>(pct_mcauliffe)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gov_2021_wide)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  locality_name    youngkin mcauliffe pct_youngkin pct_mcauliffe
+  &lt;chr&gt;               &lt;int&gt;     &lt;int&gt;        &lt;dbl&gt;         &lt;dbl&gt;
+1 ACCOMACK COUNTY      7878      4948         61.1          38.4
+2 ALBEMARLE COUNTY    19141     31919         37.2          62.0
+3 ALEXANDRIA CITY     14013     43866         24.0          75.2
+4 ALLEGHANY COUNTY     4530      1518         74.5          25.0
+5 AMELIA COUNTY        4720      1617         74.2          25.4
+6 AMHERST COUNTY       9731      3897         71            28.4</code></pre>
+</div>
+</div>
+<p>Perfect. Problem solved.</p>
+</section>
+</section>
+<section id="putting-things-together---joining" class="level1">
+<h1>Putting things together - joining</h1>
+<p>Now we want to actually join things up.</p>
+<p>Can we do that? Let’s check out our two tables</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>gov_2021_wide</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 133 × 5
+   locality_name     youngkin mcauliffe pct_youngkin pct_mcauliffe
+   &lt;chr&gt;                &lt;int&gt;     &lt;int&gt;        &lt;dbl&gt;         &lt;dbl&gt;
+ 1 ACCOMACK COUNTY       7878      4948         61.1          38.4
+ 2 ALBEMARLE COUNTY     19141     31919         37.2          62.0
+ 3 ALEXANDRIA CITY      14013     43866         24.0          75.2
+ 4 ALLEGHANY COUNTY      4530      1518         74.5          25.0
+ 5 AMELIA COUNTY         4720      1617         74.2          25.4
+ 6 AMHERST COUNTY        9731      3897         71            28.4
+ 7 APPOMATTOX COUNTY     5971      1438         80.3          19.3
+ 8 ARLINGTON COUNTY     21548     73013         22.6          76.7
+ 9 AUGUSTA COUNTY       26196      7231         77.9          21.5
+10 BATH COUNTY           1539       396         79.0          20.3
+# … with 123 more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>prez_2020</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 134 × 6
+   locality           biden trump total_votes_2021_prez biden_pct trump_pct
+   &lt;chr&gt;              &lt;dbl&gt; &lt;dbl&gt;                 &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+ 1 Accomack County     7578  9172                 16962      44.7      54.1
+ 2 Albemarle County   42466 20804                 64657      65.7      32.2
+ 3 Alexandria City    66240 14544                 82508      80.3      17.6
+ 4 Alleghany County    2243  5859                  8203      27.3      71.4
+ 5 Amelia County       2411  5390                  7893      30.6      68.3
+ 6 Amherst County      5672 11041                 17005      33.4      64.9
+ 7 Appomattox County   2418  6702                  9268      26.1      72.3
+ 8 Arlington County  105344 22318                130699      80.6      17.1
+ 9 Augusta County     10840 30714                 42278      25.6      72.6
+10 Bath County          646  1834                  2501      25.8      73.3
+# … with 124 more rows</code></pre>
+</div>
+</div>
+<p>Few quick things to deal with… first let’s get rid of the total votes in 2021, we don’t need that anymore. But also the locality isn’t the same case as in our governor’s results, so let’s uppercase it.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>prez_2020 <span class="ot">&lt;-</span> prez_2020 <span class="sc">%&gt;%</span> </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">locality =</span> <span class="fu">str_to_upper</span>(locality)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>total_votes_2021_prez)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>prez_2020</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 134 × 5
+   locality           biden trump biden_pct trump_pct
+   &lt;chr&gt;              &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+ 1 ACCOMACK COUNTY     7578  9172      44.7      54.1
+ 2 ALBEMARLE COUNTY   42466 20804      65.7      32.2
+ 3 ALEXANDRIA CITY    66240 14544      80.3      17.6
+ 4 ALLEGHANY COUNTY    2243  5859      27.3      71.4
+ 5 AMELIA COUNTY       2411  5390      30.6      68.3
+ 6 AMHERST COUNTY      5672 11041      33.4      64.9
+ 7 APPOMATTOX COUNTY   2418  6702      26.1      72.3
+ 8 ARLINGTON COUNTY  105344 22318      80.6      17.1
+ 9 AUGUSTA COUNTY     10840 30714      25.6      72.6
+10 BATH COUNTY          646  1834      25.8      73.3
+# … with 124 more rows</code></pre>
+</div>
+</div>
+<p>Great. Now we’re all ready to join. Or are we?</p>
+<p>Look closely at the record counts for our two tables. It looks like the presidential results has an extra record perhaps? Let’s investigate.</p>
+<p>We can use <code>anti_join()</code> to see what’s in one table but not the other.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anti_join</span>(prez_2020, gov_2021_wide, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;locality&quot;</span> <span class="ot">=</span> <span class="st">&quot;locality_name&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  locality                biden   trump biden_pct trump_pct
+  &lt;chr&gt;                   &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+1 KING AND QUEEN COUNTY    1590    2450      38.6      59.5
+2 TOTALS                2413568 1962430      54.1      44  </code></pre>
+</div>
+</div>
+<p>There’s a total row in there! Well we don’t want that. Let’s take it out.</p>
+<p>Also though notice a second county didn’t match…want to be that might be because it’s differently worded? Let’s see by doing the anti-join in reverse now.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anti_join</span>(gov_2021_wide, prez_2020, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;locality_name&quot;</span> <span class="ot">=</span> <span class="st">&quot;locality&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 5
+  locality_name       youngkin mcauliffe pct_youngkin pct_mcauliffe
+  &lt;chr&gt;                  &lt;int&gt;     &lt;int&gt;        &lt;dbl&gt;         &lt;dbl&gt;
+1 KING &amp; QUEEN COUNTY     2112      1130         64.8          34.6</code></pre>
+</div>
+</div>
+<p>Yep that’s it. So let’s fix both of those things in the prez table.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>prez_2020 <span class="ot">&lt;-</span> prez_2020 <span class="sc">%&gt;%</span> </span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(locality <span class="sc">!=</span> <span class="st">&quot;TOTALS&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">locality =</span> <span class="fu">str_replace</span>(locality, <span class="st">&quot;KING AND QUEEN&quot;</span>, <span class="st">&quot;KING &amp; QUEEN&quot;</span>)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we’re ready. Let’s join.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>joined_vacomparison <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(prez_2020, gov_2021_wide, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;locality&quot;</span> <span class="ot">=</span> <span class="st">&quot;locality_name&quot;</span>))</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(joined_vacomparison)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 9
+  locality         biden trump biden_pct trump…¹ young…² mcaul…³ pct_y…⁴ pct_m…⁵
+  &lt;chr&gt;            &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;int&gt;   &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+1 ACCOMACK COUNTY   7578  9172      44.7    54.1    7878    4948    61.1    38.4
+2 ALBEMARLE COUNTY 42466 20804      65.7    32.2   19141   31919    37.2    62.0
+3 ALEXANDRIA CITY  66240 14544      80.3    17.6   14013   43866    24.0    75.2
+4 ALLEGHANY COUNTY  2243  5859      27.3    71.4    4530    1518    74.5    25.0
+5 AMELIA COUNTY     2411  5390      30.6    68.3    4720    1617    74.2    25.4
+6 AMHERST COUNTY    5672 11041      33.4    64.9    9731    3897    71      28.4
+# … with abbreviated variable names ¹​trump_pct, ²​youngkin, ³​mcauliffe,
+#   ⁴​pct_youngkin, ⁵​pct_mcauliffe</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co">#save results to file for next step</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(joined_vacomparison, <span class="fu">here</span>(<span class="st">&quot;processed_data&quot;</span>, <span class="st">&quot;joined_vacomparison.rds&quot;</span>))</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(joined_vacomparison, <span class="fu">here</span>(<span class="st">&quot;processed_data&quot;</span>, <span class="st">&quot;joined_vacomparison.csv&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Alright! It worked.</p>
+<section id="comparing-gov-vs.-prez-results" class="level2">
+<h2 class="anchored" data-anchor-id="comparing-gov-vs.-prez-results">Comparing gov vs. prez results</h2>
+<p>Now that things are join, let’s actually go ahead and start making columns to compare the two elections and how the candidates did this time compared with last time.</p>
+<p>Where should we go from here….? Give it a shot…</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>joined_vacomparison <span class="ot">&lt;-</span>joined_vacomparison <span class="sc">%&gt;%</span> </span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>   <span class="at">mc_overperform =</span> pct_mcauliffe <span class="sc">-</span> biden_pct,</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>   <span class="at">yk_overperform =</span> pct_youngkin <span class="sc">-</span> trump_pct,</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>   <span class="fu">saveRDS</span>(joined_vacomparison, <span class="fu">here</span>(<span class="st">&quot;processed_data&quot;</span>, <span class="st">&quot;joined_vacomparison.rds&quot;</span>))</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(joined_vacomparison, <span class="fu">here</span>(<span class="st">&quot;processed_data&quot;</span>, <span class="st">&quot;joined_vacomparison.csv&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>joined_vacomparison <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">here</span>(<span class="st">&quot;processed_data&quot;</span>,<span class="st">&quot;joined_vacomparison.rds&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+
+</div>
+<div class="cell">
+
 </div>
 
 
 <!-- -->
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -4313,40 +4740,342 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class>
-<div class="sourceCode" id="cb7" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;Analysis Walkthrough Example&quot;</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> &quot;&quot;</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">    self-contained: true</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>We&#39;ll start by loading our libraries.</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>We&#39;re going to look at some sample data from Texas on housing prices throughout the state.</span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>First we&#39;ll load data.</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="co"># run this line below load the data for this assignment</span></span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="co"># we&#39;ll use a built-in dataset from the ggplot2 package (loaded as party of the tidyverse)</span></span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>housesales <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span>txhousing</span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>Now, let&#39;s see what the data looks like</span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>housesales <span class="sc">%&gt;%</span> </span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<div class="sourceCode" id="cb45" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;Virginia Election Project&quot;</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> &quot;Sara Iagnemma&quot;</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="co">  echo: true</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="co">    self-contained: true</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup, include=FALSE, warning=FALSE, message=FALSE}</span></span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(httr)</span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jsonlite)</span>
+<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">scipen =</span> <span class="dv">999</span>)</span>
+<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a><span class="co"># library(knitr)</span></span>
+<span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a><span class="co"># # print everything as paged ----</span></span>
+<span id="cb45-27"><a href="#cb45-27" aria-hidden="true" tabindex="-1"></a><span class="co"># knit_print.data.frame &lt;- function (x, options, ...) {</span></span>
+<span id="cb45-28"><a href="#cb45-28" aria-hidden="true" tabindex="-1"></a><span class="co">#   rmarkdown::paged_table(x, options) |&gt;</span></span>
+<span id="cb45-29"><a href="#cb45-29" aria-hidden="true" tabindex="-1"></a><span class="co">#     rmarkdown:::print.paged_df()</span></span>
+<span id="cb45-30"><a href="#cb45-30" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span>
+<span id="cb45-31"><a href="#cb45-31" aria-hidden="true" tabindex="-1"></a><span class="co"># registerS3method(&quot;knit_print&quot;, &quot;data.frame&quot;, knit_print.data.frame)</span></span>
+<span id="cb45-32"><a href="#cb45-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-33"><a href="#cb45-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-34"><a href="#cb45-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-35"><a href="#cb45-35" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-36"><a href="#cb45-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-37"><a href="#cb45-37" aria-hidden="true" tabindex="-1"></a><span class="fu"># Getting 2020 Presidential results</span></span>
+<span id="cb45-38"><a href="#cb45-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-39"><a href="#cb45-39" aria-hidden="true" tabindex="-1"></a>Data available here: <span class="ot">&lt;https://historical.elections.virginia.gov/elections/view/144567/&gt;</span></span>
+<span id="cb45-40"><a href="#cb45-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-41"><a href="#cb45-41" aria-hidden="true" tabindex="-1"></a>A little column cleaning and we&#39;ll load in the data file.</span>
+<span id="cb45-42"><a href="#cb45-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-45"><a href="#cb45-45" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-46"><a href="#cb45-46" aria-hidden="true" tabindex="-1"></a>prez_2020 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;processed_data/va_2020_prez_cleaned.csv&quot;</span>)</span>
+<span id="cb45-47"><a href="#cb45-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-48"><a href="#cb45-48" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-49"><a href="#cb45-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-50"><a href="#cb45-50" aria-hidden="true" tabindex="-1"></a>Let&#39;s see what we have</span>
+<span id="cb45-51"><a href="#cb45-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-54"><a href="#cb45-54" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-55"><a href="#cb45-55" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(prez_2020) </span>
+<span id="cb45-56"><a href="#cb45-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-57"><a href="#cb45-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-58"><a href="#cb45-58" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-59"><a href="#cb45-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-60"><a href="#cb45-60" aria-hidden="true" tabindex="-1"></a>Calculating percentage of the vote</span>
+<span id="cb45-61"><a href="#cb45-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-64"><a href="#cb45-64" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-65"><a href="#cb45-65" aria-hidden="true" tabindex="-1"></a>prez_2020 <span class="sc">%&gt;%</span> </span>
+<span id="cb45-66"><a href="#cb45-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb45-67"><a href="#cb45-67" aria-hidden="true" tabindex="-1"></a>    <span class="at">biden_pct =</span> biden<span class="sc">/</span>total_votes_2021_prez</span>
+<span id="cb45-68"><a href="#cb45-68" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb45-69"><a href="#cb45-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-70"><a href="#cb45-70" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-71"><a href="#cb45-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-72"><a href="#cb45-72" aria-hidden="true" tabindex="-1"></a>Now let&#39;s do some rounding and move that decimal point</span>
+<span id="cb45-73"><a href="#cb45-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-76"><a href="#cb45-76" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-77"><a href="#cb45-77" aria-hidden="true" tabindex="-1"></a>prez_2020 <span class="sc">%&gt;%</span> </span>
+<span id="cb45-78"><a href="#cb45-78" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb45-79"><a href="#cb45-79" aria-hidden="true" tabindex="-1"></a>    <span class="at">biden_pct =</span> janitor<span class="sc">::</span><span class="fu">round_half_up</span>(biden <span class="sc">/</span> total_votes_2021_prez <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span>
+<span id="cb45-80"><a href="#cb45-80" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb45-81"><a href="#cb45-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-82"><a href="#cb45-82" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-83"><a href="#cb45-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-84"><a href="#cb45-84" aria-hidden="true" tabindex="-1"></a>Now trump too</span>
+<span id="cb45-85"><a href="#cb45-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-88"><a href="#cb45-88" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-89"><a href="#cb45-89" aria-hidden="true" tabindex="-1"></a>prez_2020 <span class="ot">&lt;-</span> prez_2020 <span class="sc">%&gt;%</span> </span>
+<span id="cb45-90"><a href="#cb45-90" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb45-91"><a href="#cb45-91" aria-hidden="true" tabindex="-1"></a>    <span class="at">biden_pct =</span> janitor<span class="sc">::</span><span class="fu">round_half_up</span>(biden <span class="sc">/</span> total_votes_2021_prez <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>),</span>
+<span id="cb45-92"><a href="#cb45-92" aria-hidden="true" tabindex="-1"></a>    <span class="at">trump_pct =</span> janitor<span class="sc">::</span><span class="fu">round_half_up</span>(trump <span class="sc">/</span> total_votes_2021_prez <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>)</span>
+<span id="cb45-93"><a href="#cb45-93" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb45-94"><a href="#cb45-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-95"><a href="#cb45-95" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(prez_2020)</span>
+<span id="cb45-96"><a href="#cb45-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-97"><a href="#cb45-97" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-98"><a href="#cb45-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-99"><a href="#cb45-99" aria-hidden="true" tabindex="-1"></a><span class="fu"># Getting 2021 Virginia governor results</span></span>
+<span id="cb45-100"><a href="#cb45-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-101"><a href="#cb45-101" aria-hidden="true" tabindex="-1"></a>Data now available from the state here: <span class="ot">&lt;https://historical.elections.virginia.gov/elections/view/147466&gt;</span>.</span>
+<span id="cb45-102"><a href="#cb45-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-103"><a href="#cb45-103" aria-hidden="true" tabindex="-1"></a>After the election and for few years after, was only available in JSON format.</span>
+<span id="cb45-104"><a href="#cb45-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-105"><a href="#cb45-105" aria-hidden="true" tabindex="-1"></a><span class="ot">&lt;https://results.elections.virginia.gov/vaelections/2021%20November%20General/Json/Governor.json&gt;</span></span>
+<span id="cb45-106"><a href="#cb45-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-107"><a href="#cb45-107" aria-hidden="true" tabindex="-1"></a>But site location doesn&#39;t exist anymore. We can see it using the wayback machine here:</span>
+<span id="cb45-108"><a href="#cb45-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-109"><a href="#cb45-109" aria-hidden="true" tabindex="-1"></a><span class="ot">&lt;https://web.archive.org/web/20220806120753/https://results.elections.virginia.gov/vaelections/2021%20November%20General/Json/Governor.json&gt;</span></span>
+<span id="cb45-110"><a href="#cb45-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-111"><a href="#cb45-111" aria-hidden="true" tabindex="-1"></a>We&#39;ll use an archived file of the in JSON to learn about how to deal with it that format.</span>
+<span id="cb45-112"><a href="#cb45-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-115"><a href="#cb45-115" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-116"><a href="#cb45-116" aria-hidden="true" tabindex="-1"></a>jsonfile <span class="ot">&lt;-</span> <span class="st">&quot;raw_data/va_gov_json_archived.json&quot;</span></span>
+<span id="cb45-117"><a href="#cb45-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-118"><a href="#cb45-118" aria-hidden="true" tabindex="-1"></a><span class="co">#using jsonlite package function fromJSON()</span></span>
+<span id="cb45-119"><a href="#cb45-119" aria-hidden="true" tabindex="-1"></a>this.content <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(jsonfile)</span>
+<span id="cb45-120"><a href="#cb45-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-121"><a href="#cb45-121" aria-hidden="true" tabindex="-1"></a><span class="co">#dataframe from just the 6 content </span></span>
+<span id="cb45-122"><a href="#cb45-122" aria-hidden="true" tabindex="-1"></a>content_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(this.content[[<span class="dv">6</span>]])</span>
+<span id="cb45-123"><a href="#cb45-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-124"><a href="#cb45-124" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-125"><a href="#cb45-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-126"><a href="#cb45-126" aria-hidden="true" tabindex="-1"></a>Where are candidates themselves? They are &quot;nested&quot; inside. We&#39;ll use <span class="in">`unnest()`</span>to expand things.</span>
+<span id="cb45-127"><a href="#cb45-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-130"><a href="#cb45-130" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-131"><a href="#cb45-131" aria-hidden="true" tabindex="-1"></a><span class="co">#unnest</span></span>
+<span id="cb45-132"><a href="#cb45-132" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> content_df <span class="sc">%&gt;%</span></span>
+<span id="cb45-133"><a href="#cb45-133" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(<span class="at">cols =</span> Candidates)</span>
+<span id="cb45-134"><a href="#cb45-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-135"><a href="#cb45-135" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(results)</span>
+<span id="cb45-136"><a href="#cb45-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-137"><a href="#cb45-137" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-138"><a href="#cb45-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-139"><a href="#cb45-139" aria-hidden="true" tabindex="-1"></a>Unnest again on locality</span>
+<span id="cb45-140"><a href="#cb45-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-143"><a href="#cb45-143" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-144"><a href="#cb45-144" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> results <span class="sc">%&gt;%</span></span>
+<span id="cb45-145"><a href="#cb45-145" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(<span class="at">cols =</span> Locality)</span>
+<span id="cb45-146"><a href="#cb45-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-147"><a href="#cb45-147" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(results)</span>
+<span id="cb45-148"><a href="#cb45-148" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-149"><a href="#cb45-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-150"><a href="#cb45-150" aria-hidden="true" tabindex="-1"></a>Great.</span>
+<span id="cb45-151"><a href="#cb45-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-152"><a href="#cb45-152" aria-hidden="true" tabindex="-1"></a>We&#39;ll give it a new name to make it easier for us and clean the column names, remove extraneous ones.</span>
+<span id="cb45-153"><a href="#cb45-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-156"><a href="#cb45-156" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-157"><a href="#cb45-157" aria-hidden="true" tabindex="-1"></a>gov_2021 <span class="ot">&lt;-</span> results <span class="sc">%&gt;%</span> </span>
+<span id="cb45-158"><a href="#cb45-158" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb45-159"><a href="#cb45-159" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>precincts_reporting,</span>
+<span id="cb45-160"><a href="#cb45-160" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>precincts_participating,</span>
+<span id="cb45-161"><a href="#cb45-161" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>last_modified,</span>
+<span id="cb45-162"><a href="#cb45-162" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>ballot_order)</span>
+<span id="cb45-163"><a href="#cb45-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-164"><a href="#cb45-164" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gov_2021)</span>
+<span id="cb45-165"><a href="#cb45-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-166"><a href="#cb45-166" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-167"><a href="#cb45-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-168"><a href="#cb45-168" aria-hidden="true" tabindex="-1"></a>What&#39;s the issue we may have here?</span>
+<span id="cb45-169"><a href="#cb45-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-170"><a href="#cb45-170" aria-hidden="true" tabindex="-1"></a>This is actually tidy data which is good - but for comparing the candidates we&#39;d want them on the same row.</span>
+<span id="cb45-171"><a href="#cb45-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-172"><a href="#cb45-172" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reshaping</span></span>
+<span id="cb45-173"><a href="#cb45-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-174"><a href="#cb45-174" aria-hidden="true" tabindex="-1"></a>Enter pivot_wider().</span>
+<span id="cb45-175"><a href="#cb45-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-176"><a href="#cb45-176" aria-hidden="true" tabindex="-1"></a>We&#39;ll get rid of everything we don&#39;t need first.</span>
+<span id="cb45-177"><a href="#cb45-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-180"><a href="#cb45-180" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-181"><a href="#cb45-181" aria-hidden="true" tabindex="-1"></a>gov_2021 <span class="ot">&lt;-</span> gov_2021 <span class="sc">%&gt;%</span> </span>
+<span id="cb45-182"><a href="#cb45-182" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ballot_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Glenn A. Youngkin&quot;</span>, <span class="st">&quot;Terry R. McAuliffe&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb45-183"><a href="#cb45-183" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>locality_code,</span>
+<span id="cb45-184"><a href="#cb45-184" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>political_party)</span>
+<span id="cb45-185"><a href="#cb45-185" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb45-186"><a href="#cb45-186" aria-hidden="true" tabindex="-1"></a>gov_2021</span>
+<span id="cb45-187"><a href="#cb45-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-188"><a href="#cb45-188" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-189"><a href="#cb45-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-190"><a href="#cb45-190" aria-hidden="true" tabindex="-1"></a>Now we&#39;ll do the spreading out to reshape.</span>
+<span id="cb45-191"><a href="#cb45-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-194"><a href="#cb45-194" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-195"><a href="#cb45-195" aria-hidden="true" tabindex="-1"></a>gov_2021_wide <span class="ot">&lt;-</span> gov_2021 <span class="sc">%&gt;%</span> </span>
+<span id="cb45-196"><a href="#cb45-196" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> ballot_name, <span class="at">values_from =</span> <span class="fu">c</span>(votes, percentage))</span>
+<span id="cb45-197"><a href="#cb45-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-198"><a href="#cb45-198" aria-hidden="true" tabindex="-1"></a>gov_2021_wide</span>
+<span id="cb45-199"><a href="#cb45-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-200"><a href="#cb45-200" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-201"><a href="#cb45-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-202"><a href="#cb45-202" aria-hidden="true" tabindex="-1"></a>Nice.</span>
+<span id="cb45-203"><a href="#cb45-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-204"><a href="#cb45-204" aria-hidden="true" tabindex="-1"></a>This is giving us some pretty long column names. we can change them after the fact using <span class="in">`rename()`</span>. But first let&#39;s clean the names to make it easier.</span>
+<span id="cb45-205"><a href="#cb45-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-208"><a href="#cb45-208" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-209"><a href="#cb45-209" aria-hidden="true" tabindex="-1"></a>gov_2021_wide <span class="ot">&lt;-</span> gov_2021_wide <span class="sc">%&gt;%</span> </span>
+<span id="cb45-210"><a href="#cb45-210" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>()</span>
+<span id="cb45-211"><a href="#cb45-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-212"><a href="#cb45-212" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gov_2021_wide)</span>
+<span id="cb45-213"><a href="#cb45-213" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-214"><a href="#cb45-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-215"><a href="#cb45-215" aria-hidden="true" tabindex="-1"></a>Now let&#39;s rename, and we&#39;ll use similar names to what we had earlier in our 2021 results.</span>
+<span id="cb45-216"><a href="#cb45-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-219"><a href="#cb45-219" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-220"><a href="#cb45-220" aria-hidden="true" tabindex="-1"></a>gov_2021_wide <span class="ot">&lt;-</span> gov_2021_wide <span class="sc">%&gt;%</span> </span>
+<span id="cb45-221"><a href="#cb45-221" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb45-222"><a href="#cb45-222" aria-hidden="true" tabindex="-1"></a>    <span class="at">youngkin =</span> votes_glenn_a_youngkin,</span>
+<span id="cb45-223"><a href="#cb45-223" aria-hidden="true" tabindex="-1"></a>    <span class="at">mcauliffe =</span> votes_terry_r_mc_auliffe,</span>
+<span id="cb45-224"><a href="#cb45-224" aria-hidden="true" tabindex="-1"></a>    <span class="at">pct_youngkin =</span> percentage_glenn_a_youngkin,</span>
+<span id="cb45-225"><a href="#cb45-225" aria-hidden="true" tabindex="-1"></a>    <span class="at">pct_mcauliffe =</span> percentage_terry_r_mc_auliffe</span>
+<span id="cb45-226"><a href="#cb45-226" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb45-227"><a href="#cb45-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-228"><a href="#cb45-228" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gov_2021_wide)</span>
+<span id="cb45-229"><a href="#cb45-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-230"><a href="#cb45-230" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-231"><a href="#cb45-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-232"><a href="#cb45-232" aria-hidden="true" tabindex="-1"></a>Bingo.</span>
+<span id="cb45-233"><a href="#cb45-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-234"><a href="#cb45-234" aria-hidden="true" tabindex="-1"></a>There&#39;s still one potential issue here. Can you see it?</span>
+<span id="cb45-235"><a href="#cb45-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-236"><a href="#cb45-236" aria-hidden="true" tabindex="-1"></a>The percentage columns are actually text values, not numbers. And they have that <span class="in">`%`</span> sign in the text too. Let&#39;s fix that using a handy function from the readr package, <span class="in">`parse_number()`</span>.</span>
+<span id="cb45-237"><a href="#cb45-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-240"><a href="#cb45-240" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-241"><a href="#cb45-241" aria-hidden="true" tabindex="-1"></a>gov_2021_wide <span class="ot">&lt;-</span> gov_2021_wide <span class="sc">%&gt;%</span> </span>
+<span id="cb45-242"><a href="#cb45-242" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb45-243"><a href="#cb45-243" aria-hidden="true" tabindex="-1"></a>    <span class="at">pct_youngkin =</span> readr<span class="sc">::</span><span class="fu">parse_number</span>(pct_youngkin),</span>
+<span id="cb45-244"><a href="#cb45-244" aria-hidden="true" tabindex="-1"></a>    <span class="at">pct_mcauliffe =</span> readr<span class="sc">::</span><span class="fu">parse_number</span>(pct_mcauliffe)</span>
+<span id="cb45-245"><a href="#cb45-245" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb45-246"><a href="#cb45-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-247"><a href="#cb45-247" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gov_2021_wide)</span>
+<span id="cb45-248"><a href="#cb45-248" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-249"><a href="#cb45-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-250"><a href="#cb45-250" aria-hidden="true" tabindex="-1"></a>Perfect. Problem solved.</span>
+<span id="cb45-251"><a href="#cb45-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-252"><a href="#cb45-252" aria-hidden="true" tabindex="-1"></a><span class="fu"># Putting things together - joining</span></span>
+<span id="cb45-253"><a href="#cb45-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-254"><a href="#cb45-254" aria-hidden="true" tabindex="-1"></a>Now we want to actually join things up.</span>
+<span id="cb45-255"><a href="#cb45-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-256"><a href="#cb45-256" aria-hidden="true" tabindex="-1"></a>Can we do that? Let&#39;s check out our two tables</span>
+<span id="cb45-257"><a href="#cb45-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-260"><a href="#cb45-260" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-261"><a href="#cb45-261" aria-hidden="true" tabindex="-1"></a>gov_2021_wide</span>
+<span id="cb45-262"><a href="#cb45-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-263"><a href="#cb45-263" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-264"><a href="#cb45-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-267"><a href="#cb45-267" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-268"><a href="#cb45-268" aria-hidden="true" tabindex="-1"></a>prez_2020</span>
+<span id="cb45-269"><a href="#cb45-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-270"><a href="#cb45-270" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-271"><a href="#cb45-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-272"><a href="#cb45-272" aria-hidden="true" tabindex="-1"></a>Few quick things to deal with... first let&#39;s get rid of the total votes in 2021, we don&#39;t need that anymore. But also the locality isn&#39;t the same case as in our governor&#39;s results, so let&#39;s uppercase it.</span>
+<span id="cb45-273"><a href="#cb45-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-276"><a href="#cb45-276" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-277"><a href="#cb45-277" aria-hidden="true" tabindex="-1"></a>prez_2020 <span class="ot">&lt;-</span> prez_2020 <span class="sc">%&gt;%</span> </span>
+<span id="cb45-278"><a href="#cb45-278" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb45-279"><a href="#cb45-279" aria-hidden="true" tabindex="-1"></a>    <span class="at">locality =</span> <span class="fu">str_to_upper</span>(locality)</span>
+<span id="cb45-280"><a href="#cb45-280" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb45-281"><a href="#cb45-281" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>total_votes_2021_prez)</span>
+<span id="cb45-282"><a href="#cb45-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-283"><a href="#cb45-283" aria-hidden="true" tabindex="-1"></a>prez_2020</span>
+<span id="cb45-284"><a href="#cb45-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-285"><a href="#cb45-285" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-286"><a href="#cb45-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-287"><a href="#cb45-287" aria-hidden="true" tabindex="-1"></a>Great. Now we&#39;re all ready to join. Or are we?</span>
+<span id="cb45-288"><a href="#cb45-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-289"><a href="#cb45-289" aria-hidden="true" tabindex="-1"></a>Look closely at the record counts for our two tables. It looks like the presidential results has an extra record perhaps? Let&#39;s investigate.</span>
+<span id="cb45-290"><a href="#cb45-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-291"><a href="#cb45-291" aria-hidden="true" tabindex="-1"></a>We can use <span class="in">`anti_join()`</span> to see what&#39;s in one table but not the other.</span>
+<span id="cb45-292"><a href="#cb45-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-295"><a href="#cb45-295" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-296"><a href="#cb45-296" aria-hidden="true" tabindex="-1"></a><span class="fu">anti_join</span>(prez_2020, gov_2021_wide, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;locality&quot;</span> <span class="ot">=</span> <span class="st">&quot;locality_name&quot;</span>))</span>
+<span id="cb45-297"><a href="#cb45-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-298"><a href="#cb45-298" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-299"><a href="#cb45-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-300"><a href="#cb45-300" aria-hidden="true" tabindex="-1"></a>There&#39;s a total row in there! Well we don&#39;t want that. Let&#39;s take it out.</span>
+<span id="cb45-301"><a href="#cb45-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-302"><a href="#cb45-302" aria-hidden="true" tabindex="-1"></a>Also though notice a second county didn&#39;t match...want to be that might be because it&#39;s differently worded? Let&#39;s see by doing the anti-join in reverse now.</span>
+<span id="cb45-303"><a href="#cb45-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-306"><a href="#cb45-306" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-307"><a href="#cb45-307" aria-hidden="true" tabindex="-1"></a><span class="fu">anti_join</span>(gov_2021_wide, prez_2020, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;locality_name&quot;</span> <span class="ot">=</span> <span class="st">&quot;locality&quot;</span>))</span>
+<span id="cb45-308"><a href="#cb45-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-309"><a href="#cb45-309" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-310"><a href="#cb45-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-311"><a href="#cb45-311" aria-hidden="true" tabindex="-1"></a>Yep that&#39;s it. So let&#39;s fix both of those things in the prez table.</span>
+<span id="cb45-312"><a href="#cb45-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-315"><a href="#cb45-315" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-316"><a href="#cb45-316" aria-hidden="true" tabindex="-1"></a>prez_2020 <span class="ot">&lt;-</span> prez_2020 <span class="sc">%&gt;%</span> </span>
+<span id="cb45-317"><a href="#cb45-317" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(locality <span class="sc">!=</span> <span class="st">&quot;TOTALS&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb45-318"><a href="#cb45-318" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb45-319"><a href="#cb45-319" aria-hidden="true" tabindex="-1"></a>    <span class="at">locality =</span> <span class="fu">str_replace</span>(locality, <span class="st">&quot;KING AND QUEEN&quot;</span>, <span class="st">&quot;KING &amp; QUEEN&quot;</span>)</span>
+<span id="cb45-320"><a href="#cb45-320" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb45-321"><a href="#cb45-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-322"><a href="#cb45-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-323"><a href="#cb45-323" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-324"><a href="#cb45-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-325"><a href="#cb45-325" aria-hidden="true" tabindex="-1"></a>Now we&#39;re ready. Let&#39;s join.</span>
+<span id="cb45-326"><a href="#cb45-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-329"><a href="#cb45-329" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-330"><a href="#cb45-330" aria-hidden="true" tabindex="-1"></a>joined_vacomparison <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(prez_2020, gov_2021_wide, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;locality&quot;</span> <span class="ot">=</span> <span class="st">&quot;locality_name&quot;</span>))</span>
+<span id="cb45-331"><a href="#cb45-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-332"><a href="#cb45-332" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(joined_vacomparison)</span>
+<span id="cb45-333"><a href="#cb45-333" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-334"><a href="#cb45-334" aria-hidden="true" tabindex="-1"></a><span class="co">#save results to file for next step</span></span>
+<span id="cb45-335"><a href="#cb45-335" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(joined_vacomparison, <span class="fu">here</span>(<span class="st">&quot;processed_data&quot;</span>, <span class="st">&quot;joined_vacomparison.rds&quot;</span>))</span>
+<span id="cb45-336"><a href="#cb45-336" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(joined_vacomparison, <span class="fu">here</span>(<span class="st">&quot;processed_data&quot;</span>, <span class="st">&quot;joined_vacomparison.csv&quot;</span>))</span>
+<span id="cb45-337"><a href="#cb45-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-338"><a href="#cb45-338" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-339"><a href="#cb45-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-340"><a href="#cb45-340" aria-hidden="true" tabindex="-1"></a>Alright! It worked.</span>
+<span id="cb45-341"><a href="#cb45-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-342"><a href="#cb45-342" aria-hidden="true" tabindex="-1"></a><span class="fu">## Comparing gov vs. prez results</span></span>
+<span id="cb45-343"><a href="#cb45-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-344"><a href="#cb45-344" aria-hidden="true" tabindex="-1"></a>Now that things are join, let&#39;s actually go ahead and start making columns to compare the two elections and how the candidates did this time compared with last time.</span>
+<span id="cb45-345"><a href="#cb45-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-346"><a href="#cb45-346" aria-hidden="true" tabindex="-1"></a>Where should we go from here....? Give it a shot... </span>
+<span id="cb45-347"><a href="#cb45-347" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-350"><a href="#cb45-350" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-351"><a href="#cb45-351" aria-hidden="true" tabindex="-1"></a>joined_vacomparison <span class="ot">&lt;-</span>joined_vacomparison <span class="sc">%&gt;%</span> </span>
+<span id="cb45-352"><a href="#cb45-352" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb45-353"><a href="#cb45-353" aria-hidden="true" tabindex="-1"></a>   <span class="at">mc_overperform =</span> pct_mcauliffe <span class="sc">-</span> biden_pct,</span>
+<span id="cb45-354"><a href="#cb45-354" aria-hidden="true" tabindex="-1"></a>   <span class="at">yk_overperform =</span> pct_youngkin <span class="sc">-</span> trump_pct,</span>
+<span id="cb45-355"><a href="#cb45-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-356"><a href="#cb45-356" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb45-357"><a href="#cb45-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-358"><a href="#cb45-358" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-359"><a href="#cb45-359" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-360"><a href="#cb45-360" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-363"><a href="#cb45-363" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-364"><a href="#cb45-364" aria-hidden="true" tabindex="-1"></a>   <span class="fu">saveRDS</span>(joined_vacomparison, <span class="fu">here</span>(<span class="st">&quot;processed_data&quot;</span>, <span class="st">&quot;joined_vacomparison.rds&quot;</span>))</span>
+<span id="cb45-365"><a href="#cb45-365" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(joined_vacomparison, <span class="fu">here</span>(<span class="st">&quot;processed_data&quot;</span>, <span class="st">&quot;joined_vacomparison.csv&quot;</span>))</span>
+<span id="cb45-366"><a href="#cb45-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-367"><a href="#cb45-367" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-368"><a href="#cb45-368" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-369"><a href="#cb45-369" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-372"><a href="#cb45-372" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-373"><a href="#cb45-373" aria-hidden="true" tabindex="-1"></a>joined_vacomparison <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">here</span>(<span class="st">&quot;processed_data&quot;</span>,<span class="st">&quot;joined_vacomparison.rds&quot;</span>))</span>
+<span id="cb45-374"><a href="#cb45-374" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-375"><a href="#cb45-375" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-376"><a href="#cb45-376" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-377"><a href="#cb45-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-378"><a href="#cb45-378" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-381"><a href="#cb45-381" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-382"><a href="#cb45-382" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-383"><a href="#cb45-383" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-384"><a href="#cb45-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-387"><a href="#cb45-387" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-388"><a href="#cb45-388" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

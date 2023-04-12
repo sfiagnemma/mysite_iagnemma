@@ -18,6 +18,8 @@ website:
       - walkthrough.qmd
       - Story Samples.qmd
       - Media Law Essay.qmd
+      - VA Datawrangling.qmd
+      - VA My Analysis.qmd
 
 format:
   html:

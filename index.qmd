@@ -6,7 +6,7 @@ about:
   links:
     - icon: linkedin
       text: Linkedin
-      href: https://www.linkedin.com/in/sara-iagnemma-510441270/
+      href: https://www.linkedin.com/in/sara-iagnemma-46a3751b6/
     - icon: github
       text: Github
       href: https://github.com/sfiagnemma
