@@ -1,0 +1,9 @@
+---
+title: "Custom R Walkthrough"
+author: "Sara Iagnemma"
+format:
+  html:
+    self-contained: true
+    code-fold: true
+    code-tools: true
+---

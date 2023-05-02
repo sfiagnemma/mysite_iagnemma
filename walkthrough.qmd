@@ -1,6 +1,6 @@
 ---
 title: "Analysis Walkthrough Example"
-author: ""
+author: "Sara Iagnemma"
 format:
   html:
     self-contained: true

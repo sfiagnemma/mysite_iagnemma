@@ -1,6 +1,6 @@
 ---
-title: "Virginia Election Project"
-author: "putyournamehere"
+title: "My Virginia Election Project"
+author: "Sara Iagnemma"
 execute:
   echo: true
 format:

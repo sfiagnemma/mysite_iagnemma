@@ -1,7 +1,0 @@
----
-title: "Portfolio"
----
-
-## Vaguely Avenue
-
-*This is an [art project](vaguelyavenue.weebly.com) I completed in high school.*

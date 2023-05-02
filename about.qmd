@@ -1,13 +1,3 @@
 ---
-title: "More Stuff About Me"
+title: "Resume"
 ---
-
-About this site  
-  
-Here is some new stuff!
-
-```{r}
-1 + 1 
-
-
-```

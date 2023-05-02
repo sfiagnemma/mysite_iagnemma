@@ -1,0 +1,30 @@
+---
+title: "R-Integrated Breaking News Sample"
+author: "Sara Iagnemma"
+format:
+  html:
+    self-contained: true
+    code-fold: true
+    code-tools: true
+
+---
+
+
+```{r}
+
+library(tidyverse)
+
+
+```
+
+
+```{r}
+
+eight_cylinder_cars <- mtcars %>% 
+  filter (cyl == 8) %>% 
+  nrow()
+
+```
+
+There are `r eight_cylinder_cars` eight-cylinder cars in the mtcars set. 
+

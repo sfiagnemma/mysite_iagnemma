@@ -13,13 +13,12 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
-      - portfolio.qmd
       - walkthrough.qmd
-      - Story Samples.qmd
-      - Media Law Essay.qmd
-      - VA Datawrangling.qmd
+      - Essay Sample.qmd
+      - News Story Sample.qmd
       - VA My Analysis.qmd
+      - custom walkthrough.qmd
+      - breaking news sample.qmd
 
 format:
   html:
