@@ -13,12 +13,15 @@ website:
     left:
       - href: index.qmd
         text: Home
+      - href: https://drive.google.com/file/d/16bVlok7HZYSFyU6wBmcCVdeccwKGA_BQ/view?usp=sharing
+        text: Resume
       - walkthrough.qmd
       - Essay Sample.qmd
       - News Story Sample.qmd
       - VA My Analysis.qmd
       - custom walkthrough.qmd
       - breaking news sample.qmd
+
 
 format:
   html:

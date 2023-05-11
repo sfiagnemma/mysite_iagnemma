@@ -39,9 +39,4 @@ head(joined_vacomparison)
 ```
 
 
-```{r}
 
-joined_vacomparison %>% 
-  count (mc_overperform > 0)
-
-```

@@ -4011,6 +4011,10 @@ vertical-align: -.125em;
  <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="https://drive.google.com/file/d/16bVlok7HZYSFyU6wBmcCVdeccwKGA_BQ/view?usp=sharing">
+ <span class="menu-text">Resume</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="./walkthrough.html">
  <span class="menu-text">Analysis Walkthrough Example</span></a>
   </li>  
@@ -4052,7 +4056,7 @@ vertical-align: -.125em;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Custom R Walkthrough</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title">Custom R Walkthrough</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
 </div>
 
 
@@ -4073,6 +4077,97 @@ vertical-align: -.125em;
 
 </header>
 
+<p>We’ll start by loading the packages we’ll need, and then loading in our data sets.</p>
+<p>There are a number of different ways to join data sets together.</p>
+<p><strong>Full Joins</strong> add together all of the rows from the sets you want to join.</p>
+<p><strong>Inner Joins</strong> add all the matching rows from x where there are also matching y values. <em>Note: Inner Joins will return multiples of the same matches if they occur.</em></p>
+<p><strong>Left Joins</strong> add all rows from x.</p>
+<p><strong>Right Joins</strong> add all rows from y.</p>
+<p>Some joins can be used to filter out unwanted data.</p>
+<p><strong>Semi Joins</strong> only include a row from x if there’s a match in y between the data sets.</p>
+<p><strong>Anti Joins</strong> only include a row from x if there’s <em>no</em> match in y between the data sets.</p>
+<p><strong>Nest Joins</strong> get groups of all matching rows from y.</p>
+<p>Let’s look at the data we have here to see what way might be best.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(joining_demographics)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 27
+  geoid county  county…¹ state…² state…³ pct_b…⁴ pct_m…⁵ pct_r…⁶ pct_e…⁷ pct_e…⁸
+  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+1 01001 Autauga Autauga… AL      Alabama    2.34   10.9     26.0    28.3    29.6
+2 01003 Baldwin Baldwin… AL      Alabama    3.42   11.2     17.1    31.9    33.9
+3 01005 Barbour Barbour… AL      Alabama    2.55    6.77    54.7    11.6    18.2
+4 01007 Bibb    Bibb Co… AL      Alabama    1.58    6.77    25.6    11.4    14.1
+5 01009 Blount  Blount … AL      Alabama    4.35    7.69    13.3    13.2    14.1
+6 01011 Bullock Bullock… AL      Alabama    1.5     3.7     78.8    10.3    23.5
+# … with 17 more variables: pct_ed_college_white_male &lt;dbl&gt;,
+#   pct_ed_college_white_female &lt;dbl&gt;, pct_born_foreign_abovebelow_natl &lt;chr&gt;,
+#   pct_mil_veteran_abovebelow_natl &lt;chr&gt;,
+#   pct_race_nonwhite_abovebelow_natl &lt;chr&gt;,
+#   pct_ed_college_all_abovebelow_natl &lt;chr&gt;,
+#   pct_ed_college_white_abovebelow_natl &lt;chr&gt;,
+#   pct_ed_college_white_male_abovebelow_natl &lt;chr&gt;, …</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(joining_elexresults)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 15
+  geoid totalv…¹ democ…² repub…³ pct_d…⁴ pct_r…⁵ winne…⁶ margi…⁷ total…⁸ democ…⁹
+  &lt;chr&gt;    &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+1 01001    27691    7503   19838    27.1    71.6 R          44.5   24973    5936
+2 01003   109351   24578   83544    22.5    76.4 R          53.9   95215   18458
+3 01005    10506    4816    5622    45.8    53.5 R           7.7   10469    4871
+4 01007     9585    1986    7525    20.7    78.5 R          57.8    8819    1874
+5 01009    27560    2640   24711     9.6    89.7 R          80.1   25588    2156
+6 01011     4611    3446    1146    74.7    24.9 D          49.8    4710    3530
+# … with 5 more variables: republican_2016 &lt;dbl&gt;, winner_2016 &lt;chr&gt;,
+#   pct_d_2016 &lt;dbl&gt;, pct_r_2016 &lt;dbl&gt;, margin_2016 &lt;dbl&gt;, and abbreviated
+#   variable names ¹​totalvotes_2020, ²​democrat_2020, ³​republican_2020,
+#   ⁴​pct_d_2020, ⁵​pct_r_2020, ⁶​winner_2020, ⁷​margin_2020, ⁸​totalvotes_2016,
+#   ⁹​democrat_2016</code></pre>
+</div>
+</div>
+<p>You might notice right away that both of the data sets includes a geo ID, which is a unique value assigned to each county.</p>
+<p>Joining these sets can help us group data by two variables that wouldn’t otherwise have been found in the same set.</p>
+<p>Let’s start by imagining we wanted to group our data by demographic and election results. A full join makes sense here.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>elex_demo_fulljoin <span class="ot">&lt;-</span> <span class="fu">full_join</span>(joining_demographics, joining_elexresults)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(geoid, pct_d_2020, pct_r_2020, pct_d_2016,
+pct_r_2016)`</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(elex_demo_fulljoin)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 37
+  geoid county  county…¹ state…² state…³ pct_b…⁴ pct_m…⁵ pct_r…⁶ pct_e…⁷ pct_e…⁸
+  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+1 01001 Autauga Autauga… AL      Alabama    2.34   10.9     26.0    28.3    29.6
+2 01003 Baldwin Baldwin… AL      Alabama    3.42   11.2     17.1    31.9    33.9
+3 01005 Barbour Barbour… AL      Alabama    2.55    6.77    54.7    11.6    18.2
+4 01007 Bibb    Bibb Co… AL      Alabama    1.58    6.77    25.6    11.4    14.1
+5 01009 Blount  Blount … AL      Alabama    4.35    7.69    13.3    13.2    14.1
+6 01011 Bullock Bullock… AL      Alabama    1.5     3.7     78.8    10.3    23.5
+# … with 27 more variables: pct_ed_college_white_male &lt;dbl&gt;,
+#   pct_ed_college_white_female &lt;dbl&gt;, pct_born_foreign_abovebelow_natl &lt;chr&gt;,
+#   pct_mil_veteran_abovebelow_natl &lt;chr&gt;,
+#   pct_race_nonwhite_abovebelow_natl &lt;chr&gt;,
+#   pct_ed_college_all_abovebelow_natl &lt;chr&gt;,
+#   pct_ed_college_white_abovebelow_natl &lt;chr&gt;,
+#   pct_ed_college_white_male_abovebelow_natl &lt;chr&gt;, …</code></pre>
+</div>
+</div>
+<p>Now our data set “elex_demo_fulljoin” includes data from both the election results data set and the demographics data sets. We can work with this data the same way we might with any other set.</p>
 
 
 <!-- -->
@@ -4263,15 +4358,70 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class>
-<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;Custom R Walkthrough&quot;</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> &quot;Sara Iagnemma&quot;</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">    self-contained: true</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;Custom R Walkthrough&quot;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> &quot;Sara Iagnemma&quot;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">    self-contained: true</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>We&#39;ll start by loading the packages we&#39;ll need, and then loading in our data sets.</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup, include=FALSE}</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>joining_demographics <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">here</span>(<span class="st">&quot;joining&quot;</span>,<span class="st">&quot;counties_demographics.rds&quot;</span>))</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>joining_elexresults <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">here</span>(<span class="st">&quot;joining&quot;</span>,<span class="st">&quot;counties_elexresults.rds&quot;</span>))</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>There are a number of different ways to join data sets together.</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>**Full Joins** add together all of the rows from the sets you want to join.</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>**Inner Joins** add all the matching rows from x where there are also matching y values. *Note: Inner Joins will return multiples of the same matches if they occur.*</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>**Left Joins** add all rows from x.</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>**Right Joins** add all rows from y.</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>Some joins can be used to filter out unwanted data.</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>**Semi Joins** only include a row from x if there&#39;s a match in y between the data sets.</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>**Anti Joins** only include a row from x if there&#39;s *no* match in y between the data sets.</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>**Nest Joins** get groups of all matching rows from y.</span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>Let&#39;s look at the data we have here to see what way might be best.</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(joining_demographics)</span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(joining_elexresults)</span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>You might notice right away that both of the data sets includes a geo ID, which is a unique value assigned to each county.</span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a>Joining these sets can help us group data by two variables that wouldn&#39;t otherwise have been found in the same set.</span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>Let&#39;s start by imagining we wanted to group our data by demographic and election results. A full join makes sense here.</span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a>elex_demo_fulljoin <span class="ot">&lt;-</span> <span class="fu">full_join</span>(joining_demographics, joining_elexresults)</span>
+<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(elex_demo_fulljoin)</span>
+<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a>Now our data set &quot;elex_demo_fulljoin&quot; includes data from both the election results data set and the demographics data sets. We can work with this data the same way we might with any other set.</span>
+<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a></span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">

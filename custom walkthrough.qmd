@@ -7,3 +7,60 @@ format:
     code-fold: true
     code-tools: true
 ---
+
+We'll start by loading the packages we'll need, and then loading in our data sets.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(here)
+
+joining_demographics <- readRDS(here("joining","counties_demographics.rds"))
+joining_elexresults <- readRDS(here("joining","counties_elexresults.rds"))
+
+```
+
+There are a number of different ways to join data sets together.
+
+**Full Joins** add together all of the rows from the sets you want to join.
+
+**Inner Joins** add all the matching rows from x where there are also matching y values. *Note: Inner Joins will return multiples of the same matches if they occur.*
+
+**Left Joins** add all rows from x.
+
+**Right Joins** add all rows from y.
+
+Some joins can be used to filter out unwanted data.
+
+**Semi Joins** only include a row from x if there's a match in y between the data sets.
+
+**Anti Joins** only include a row from x if there's *no* match in y between the data sets.
+
+**Nest Joins** get groups of all matching rows from y.
+
+Let's look at the data we have here to see what way might be best.
+
+```{r}
+
+head(joining_demographics)
+head(joining_elexresults)
+
+```
+
+You might notice right away that both of the data sets includes a geo ID, which is a unique value assigned to each county.
+
+Joining these sets can help us group data by two variables that wouldn't otherwise have been found in the same set.
+
+Let's start by imagining we wanted to group our data by demographic and election results. A full join makes sense here.
+
+```{r}
+
+elex_demo_fulljoin <- full_join(joining_demographics, joining_elexresults)
+head(elex_demo_fulljoin)
+
+```
+
+Now our data set "elex_demo_fulljoin" includes data from both the election results data set and the demographics data sets. We can work with this data the same way we might with any other set.
+
+

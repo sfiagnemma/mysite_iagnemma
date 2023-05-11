@@ -10,21 +10,53 @@ format:
 ---
 
 
+
+
+
 ```{r}
 
 library(tidyverse)
+library(janitor)
+library(kableExtra)
+library(here)
+options(scipen = 999)
+options(stringsAsFactors = FALSE)
 
+
+VAdata <- readRDS(here("processed_data", "joined_vacomparison.rds"))
 
 ```
-
 
 ```{r}
 
-eight_cylinder_cars <- mtcars %>% 
-  filter (cyl == 8) %>% 
-  nrow()
+localities <- VAdata %>%
+  count()
+
+bidenWs <- VAdata %>% 
+  filter(biden_pct > 50) %>% 
+  count()
+
+youngkinWs <- VAdata %>% 
+  filter(pct_youngkin > 50) %>% 
+  count()
+
+youngkinFlips <- VAdata %>% 
+  filter(pct_youngkin >50) %>% 
+  filter (biden_pct > 50) %>% 
+  count()
 
 ```
 
-There are `r eight_cylinder_cars` eight-cylinder cars in the mtcars set. 
 
+
+Republican Glenn Youngkin has defeated Democratic candidate Terry McAuliffe in the race for Virginia governor. Youngkin's victory is an historic statewide upset for Democrats, as Virginia has not had a Republican governor since 2009. 
+
+Youngkin's victory is also an upset since, in 2020, President Biden won a majority in the state during the presidential election. 
+
+Virginia boasts a population of over 8.6 million people. Of the `r localities` localities in the state, Joe Biden won `r bidenWs` during the 2020 presidential election, which amounted to 54.1% of the vote.
+
+This year, Youngkin won `r youngkinWs` districts, especially in the west of the state. Youngkin was able to flip `r youngkinFlips` districts, earning the support of localities that had recently voted for President Biden. Still, Youngkin's victory was much narrower in the popular vote, of which Younkin won 50.6%. 
+
+"Together, we will change the trajectory of this commonwealth," Youngkin said, addressing supporters after his victory was announced. Education made up a significant portion of Youngkin's victory speech as well as his platform, promising to invest in "teachers, new facilities, special education," as well as "introducing choice in the public school system." Youngkin had previously courted conservative Virginia voters by suggesting he would enable parents to prevent schools from teaching content they found objectionable. 
+
+McAuliffe's campaign aimed to tie Youngkin to Donald Trump, a tactic which appears to have not dissuaded Republicans nor mobilized Democrats to vote against him. 
